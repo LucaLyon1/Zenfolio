@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 
 function MoneyGrower() {
-    const [value, setValue] = useState(100);
-    const [inputValue, setInputValue] = useState(value.toFixed(6));
+    const [value, setValue] = useState(1000);
     const [growth, setGrowth] = useState(true);
     const [rate, setRate] = useState(0.08)
 
@@ -18,13 +17,7 @@ function MoneyGrower() {
             });
         }
     }
-    const pauseGrowth = () => {
-        setGrowth(false);
-    }
-    const resumeGrowth = () => {
-        setValue(parseFloat(inputValue))
-        setGrowth(true);
-    }
+
 
     useEffect(() => {
         if (growth) {
@@ -33,26 +26,17 @@ function MoneyGrower() {
         }
     }, [growth]);
 
-    useEffect(() => {
-        setInputValue(value.toFixed(6));
-    }, [value]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
-        setInputValue(newValue);
-    }
-
     return (
         <>
+            <p className="text-lg italic text-gray-500">You currently have</p>
             <div className="text-3xl font-semibold">
-                <input
-                    onFocus={pauseGrowth}
-                    onBlur={resumeGrowth}
-                    onChange={handleChange}
-                    type="number"
-                    value={inputValue}
-                    className="text-center w-[210px]" />$
+                {value.toFixed(6)}$
             </div>
+            <p className="text-lg italic text-gray-500">Growing at</p>
+            <div className="text-center text-3xl font-semibold">
+                {rate * 100}%
+            </div>
+            <p className="text-lg italic text-gray-500">Per year</p>
         </>
     );
 }
