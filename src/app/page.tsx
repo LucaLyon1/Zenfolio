@@ -1,8 +1,9 @@
 import MoneyGrower from "@/components/MoneyGrower";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
 export default function Home() {
-
+  const { userId } = auth();
 
   return (
     <div className="bg-gray-100 flex flex-col items-center justify-center w-screen h-screen gap-4">
