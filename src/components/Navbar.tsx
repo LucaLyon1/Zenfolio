@@ -1,7 +1,9 @@
+import { checkUser } from "@/lib/CheckUser";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
-function Navbar() {
+async function Navbar() {
+    const user = checkUser();
 
     return (
         <div>
