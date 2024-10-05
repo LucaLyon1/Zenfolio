@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 function Navbar() {
@@ -6,7 +6,7 @@ function Navbar() {
     return (
         <div>
             <SignedIn>
-                <SignOutButton />
+                <UserButton />
             </SignedIn>
             <SignedOut>
                 <Link href='/sign-up'>Sign in</Link>
