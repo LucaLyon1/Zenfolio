@@ -1,28 +1,36 @@
 "use client";
 
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { modifyPortfolio } from "@/lib/portfolio";
+import { useRouter } from "next/navigation";
 
-const moneySchema = z.object({
+const portfolioSchema = z.object({
     capital: z.number({ message: "Please enter a value" }).gte(0, { message: "Capital should be greater than or equal to zero" }),
     savings: z.number({ required_error: "Please enter a value" }),
     rate: z.number({ required_error: "Please enter a value" }).gte(0, { message: "Rate should be greater than or equal to zero" })
-})
+});
 
-type moneyType = z.infer<typeof moneySchema>;
+type portfolioType = z.infer<typeof portfolioSchema>;
 
 function Settings() {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<moneyType>({ resolver: zodResolver(moneySchema) })
+    } = useForm<portfolioType>({ resolver: zodResolver(portfolioSchema) })
+
+    const onSubmit: SubmitHandler<portfolioType> = (data) => {
+        modifyPortfolio(data);
+        router.push('/');
+    };
 
     return (
         <div className="bg-gray-100 h-screen w-screen flex items-center justify-center">
             <form
-                onSubmit={handleSubmit((data) => console.log(data))}
+                onSubmit={handleSubmit(onSubmit)}
                 className="bg-white w-3/4 md:w-2/3 lg:w-1/2 py-6 min-h-1/3 flex items-center justify-around rounded-md shadow-md flex-col gap-4">
                 <label
                     className="text-lg font-semibold"
