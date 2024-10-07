@@ -3,7 +3,9 @@
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createPortfolio } from "@/lib/portfolio";
+import { createPortfolio, getPortfolio } from "@/lib/portfolio";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const portfolioSchema = z.object({
     capital: z.number({ message: "Please enter a value" }).gte(0, { message: "Capital should be greater than or equal to zero" }),
@@ -14,6 +16,15 @@ const portfolioSchema = z.object({
 type portfolioType = z.infer<typeof portfolioSchema>;
 
 function createZenfolio() {
+    const router = useRouter();
+    useEffect(() => {
+        const checkFolio = async () => {
+            const folio = await getPortfolio();
+            if (folio) router.replace('/settings')
+        };
+        checkFolio();
+    }, []);
+
     const {
         register,
         handleSubmit,
@@ -22,8 +33,8 @@ function createZenfolio() {
 
     const onSubmit: SubmitHandler<portfolioType> = (data) => {
         createPortfolio(data);
+        router.replace('/')
     }
-
 
     return (
         <div className="bg-gray-100 h-screen w-screen flex items-center justify-center">

@@ -1,10 +1,11 @@
 import MoneyGrower from "@/components/MoneyGrower";
+import { getPortfolio } from "@/lib/portfolio";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
-function modifyFolio() {
-  const { userId } = auth();
-  if (userId) {
+async function modifyFolio() {
+  const folio = await getPortfolio();
+  if (folio) {
     return (
       <Link
         className="bg-blue-400 px-4 py-2 text-white rounded-lg hover:bg-blue-600 hover:scale-105 transition-all mt-4"

@@ -1,10 +1,12 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher, currentUser } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(['/settings'])
+const isProtectedRoute = createRouteMatcher(['/settings', '/create-zenfolio'])
+
 
 export default clerkMiddleware((auth, req) => {
     if (isProtectedRoute(req)) auth().protect();
 });
+
 
 export const config = {
     matcher: [

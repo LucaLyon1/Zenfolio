@@ -1,6 +1,6 @@
 "use client";
 
-import { getPortfolio } from "@/lib/portfolio";
+import { getPortfolio, modifyPortfolio } from "@/lib/portfolio";
 import { useEffect, useState } from "react";
 
 function MoneyGrower() {
@@ -91,6 +91,10 @@ function MoneyGrower() {
             <p className="text-gray-600 italic">Time to buy a car (${CAR_PRICE.toLocaleString('en-US')}): {timeToCar}</p>
             <p className="text-gray-600 italic">Time to buy a house (${HOUSE_PRICE.toLocaleString('en-US')}): {timeToHouse}</p>
             <p className="text-gray-600 italic">Time to become a millionaire: {timeToMillionaire}</p>
+            <button
+                onClick={() => modifyPortfolio({ capital: currentValue, savings: monthlySavings, rate: growthRate })}>
+                Save Value
+            </button>
         </div>
     );
 }

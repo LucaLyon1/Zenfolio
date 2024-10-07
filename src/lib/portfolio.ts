@@ -1,6 +1,9 @@
 "use server";
 import { prisma } from "@/lib/prisma"
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { calculatePortfolioGrowth } from "./portfolioCalculator";
+import { error } from "console";
 
 type Portfolio = {
     capital: number,
@@ -21,8 +24,22 @@ export async function getPortfolio() {
 
     const portfolio = await prisma.portfolio.findUnique({
         where: { userId: prismaUser.id }
-    })
-    return portfolio;
+    });
+    if (portfolio) {
+        const resFolio = {
+            currentValue: portfolio?.capital,
+            monthlySavings: portfolio?.savings,
+            growthRate: portfolio?.rate,
+            lastUpdated: portfolio?.lastUpdated,
+        }
+        const { newValue } = calculatePortfolioGrowth(resFolio);
+        return { ...portfolio, capital: newValue };
+    }
+    return {
+        capital: 10000,
+        savings: 1000,
+        rate: 8,
+    }
 }
 
 export async function createPortfolio(data: Portfolio) {
@@ -35,12 +52,16 @@ export async function createPortfolio(data: Portfolio) {
 
     if (!prismaUser) return;
 
+    const portfolio = await getPortfolio();
+
+    if (portfolio) return redirect('/settings')
+
     const newFolio = await prisma.portfolio.create({
         data: {
             capital: data.capital,
             savings: data.savings,
             rate: data.rate,
-            userId: prismaUser.id
+            userId: prismaUser.id,
         }
     })
 }
