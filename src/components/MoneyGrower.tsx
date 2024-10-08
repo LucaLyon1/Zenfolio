@@ -1,5 +1,4 @@
 "use client";
-
 import { getPortfolio, modifyPortfolio } from "@/lib/portfolio";
 import { useEffect, useState } from "react";
 
@@ -65,6 +64,15 @@ function MoneyGrower() {
         return () => clearInterval(intervalId);
     }, [growthRate, monthlySavings]);
 
+    /*useEffect(() => {
+        console.log("aha");
+        const interval = setInterval(() => {
+            modifyPortfolio({ capital: currentValue, savings: monthlySavings, rate: growthRate });
+            console.log('fired');
+        }, 10000);
+        return () => clearInterval(interval);
+    }, [])*/
+
     const formatDays = (days: number) => {
         if (days >= 36500) return "More than 100 years";
         const years = Math.floor(days / 365);
@@ -80,21 +88,17 @@ function MoneyGrower() {
 
     return (
         <div className="flex flex-col gap-4 items-center">
-            <p className="text-lg italic text-gray-500">You currently have</p>
+            <p className="text-lg italic text-gray-400">You currently have</p>
             <div className="text-3xl font-semibold">
                 ${currentValue.toLocaleString('en-US', { maximumFractionDigits: 5 })}
             </div>
-            <p className="text-lg italic text-gray-500">Growing at</p>
+            <p className="text-lg italic text-gray-400">Growing at</p>
             <div className="text-center text-3xl font-semibold">
                 {growthRate}%
             </div>
-            <p className="text-gray-600 italic">Time to buy a car (${CAR_PRICE.toLocaleString('en-US')}): {timeToCar}</p>
-            <p className="text-gray-600 italic">Time to buy a house (${HOUSE_PRICE.toLocaleString('en-US')}): {timeToHouse}</p>
-            <p className="text-gray-600 italic">Time to become a millionaire: {timeToMillionaire}</p>
-            <button
-                onClick={() => modifyPortfolio({ capital: currentValue, savings: monthlySavings, rate: growthRate })}>
-                Save Value
-            </button>
+            <p className="text-gray-400 italic">Time to buy a car (${CAR_PRICE.toLocaleString('en-US')}): {timeToCar}</p>
+            <p className="text-gray-400 italic">Time to buy a house (${HOUSE_PRICE.toLocaleString('en-US')}): {timeToHouse}</p>
+            <p className="text-gray-400 italic">Time to become a millionaire: {timeToMillionaire}</p>
         </div>
     );
 }

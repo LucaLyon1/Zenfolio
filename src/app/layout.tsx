@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import { Roboto, Roboto_Serif } from "next/font/google"
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
+
+const roboto = Roboto({
+  weight: ['100', '300', '400', '500', '700', '900'],
+  subsets: ["latin"]
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +26,7 @@ export default function RootLayout({
     >
       <html lang="en">
         <body
+          className={roboto.className + ' text-[#FAFAFA]'}
         >
           <Navbar />
           {children}
