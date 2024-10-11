@@ -90,7 +90,7 @@ function MoneyGrower() {
         <div className="flex flex-col gap-4 items-center">
             <p className="text-lg italic text-gray-400">You currently have</p>
             <div className="text-3xl font-semibold">
-                ${currentValue.toLocaleString('en-US', { maximumFractionDigits: 5 })}
+                ${currentValue.toLocaleString('en-US', { maximumFractionDigits: 5, minimumFractionDigits: 5 })}
             </div>
             <p className="text-lg italic text-gray-400">Growing at</p>
             <div className="text-center text-3xl font-semibold">

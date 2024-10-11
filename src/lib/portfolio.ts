@@ -35,11 +35,7 @@ export async function getPortfolio() {
         const { newValue } = calculatePortfolioGrowth(resFolio);
         return { ...portfolio, capital: newValue };
     }
-    return {
-        capital: 10000,
-        savings: 1000,
-        rate: 8,
-    }
+    return null;
 }
 
 export async function createPortfolio(data: Portfolio) {
